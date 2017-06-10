@@ -9,7 +9,8 @@ var rev = require('gulp-rev-append');
 var livereload = require('gulp-livereload');
 // 获取 gulp-imagemin 模块
 var imagemin = require('gulp-imagemin');
-
+ // 深度压缩图片
+pngquant = require('imagemin-pngquant');
 var htmlOptions = {
   removeComments: true, // 清除HTML注释
   collapseWhitespace: true, // 压缩HTML
@@ -106,7 +107,9 @@ gulp.task('images', function () {
   // 压缩img文件夹的图片
   gulp.src('src/img/*.*')
     .pipe(imagemin({
-        progressive: true
+        progressive: true,
+        optimizationLevel: 7,
+        use: [pngquant()]
     }))
     .pipe(gulp.dest('dist/img'))
 

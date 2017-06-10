@@ -401,15 +401,17 @@ var resizePizzas = function(size) {
 
   // 改变滑窗前披萨的尺寸值
   function changeSliderLabel(size) {
+    // 使用 .textContent 会比 .innerHTML 更快一点, 因为不用解析里面的 html
+    // getElementById 的查找速度比 querySelector 要快上 2 倍以上
     switch(size) {
       case "1":
-        document.querySelector("#pizzaSize").innerHTML = "Small";
+        document.getElementById("pizzaSize").textContent = "Small";
         return;
       case "2":
-        document.querySelector("#pizzaSize").innerHTML = "Medium";
+        document.getElementById("pizzaSize").textContent = "Medium";
         return;
       case "3":
-        document.querySelector("#pizzaSize").innerHTML = "Large";
+        document.getElementById("pizzaSize").textContent = "Large";
         return;
       default:
         console.log("bug in changeSliderLabel");
@@ -435,7 +437,7 @@ var resizePizzas = function(size) {
         console.log("bug in sizeSwitcher");
     }
     // 先获取randomPizzaContainer的所有元素
-    var randomPizzaContainers = document.querySelectorAll(".randomPizzaContainer");
+    var randomPizzaContainers = document.getElementsByClassName("randomPizzaContainer");
     // 改变randomPizzaContainer的宽度
     for (var i = 0; i < randomPizzaContainers.length; i ++) {
       randomPizzaContainers[i].style.width = newWidth + '%';
@@ -493,7 +495,7 @@ function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
 
-  var items = document.querySelectorAll('.mover');
+  var items = document.getElementsByClassName('mover');
   // scrollTop先读取 ，避免强制同步布局
   var scrollTop = document.body.scrollTop / 1250 ;
   for (var i = 0; i < items.length; i++) {
@@ -520,9 +522,15 @@ window.addEventListener('scroll', function() {
 
 // js异步执行，披萨滑窗应该在window.onload才生成
 window.onload = function() {
-  var cols = 8;
+  var cols = 8; // 行数
   var s = 256;
-  for (var i = 0; i < 200; i++) {
+  var screenH = parseInt(window.innerHeight);
+  var screenW = parseInt(window.innerWidth);
+  var pizzaRowNum = screenH / s; // 需要pizza的列数
+  var pizzaNum = Math.floor(pizzaRowNum * cols); // pizza的总数 = 列数 * 行数
+  console.log(pizzaNum, screenH, screenW);
+  var frag = document.createDocumentFragment();
+  for (var i = 0; i < pizzaNum; i++) {
     var elem = document.createElement('img');
     elem.className = 'mover';
     elem.src = "images/pizza.png";
@@ -530,7 +538,8 @@ window.onload = function() {
     elem.style.width = "73.333px";
     elem.basicLeft = (i % cols) * s;
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
-    document.querySelector("#movingPizzas1").appendChild(elem);
+    frag.appendChild(elem);
   }
+  document.getElementById("movingPizzas1").appendChild(frag);
   requestAnimationFrame(updatePositions);
 }
