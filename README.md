@@ -9,7 +9,7 @@
 ``` bash
   $> npm install
 ```
- * 成功安装后，在**dist**文件夹里面运行命令行，创建一个本地服务器
+ * 成功安装后，在**dist**文件夹里面运行命令行（需要安装 **python 3.6** 版本），创建一个本地服务器
  ``` bash
    $> python -m http.server 8080
  ```
@@ -28,12 +28,16 @@
 
     3. 使用gulp工具对所有图片进行压缩
 
+    4. 引用print.css的`<link>`标签加上media属性，不阻塞网页呈现
+
   * views/js/main.js
     1. `views/pizza.html` 在滚动时，使用`requestAnimationFrame`来调用`updatePositions`
 
     2. 将`updatePositions`函数里的`document.body.scrollTop`放在for循环外面获取，避免了强制同步布局
 
     3. `sizeSwitcher (size)`修改原来的改变宽度的方式，通过百分比来改变`randomPizzaContainer`的宽度，避免了强制同步布局
+
+    4. 修改pizza滚动滑窗的pizza总数
 
 ## gulp工具说明
   gulp的任务已经全部加在`mywatch`任务里，

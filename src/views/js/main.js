@@ -528,7 +528,6 @@ window.onload = function() {
   var screenW = parseInt(window.innerWidth);
   var pizzaRowNum = screenH / s; // 需要pizza的列数
   var pizzaNum = Math.floor(pizzaRowNum * cols); // pizza的总数 = 列数 * 行数
-  console.log(pizzaNum, screenH, screenW);
   var frag = document.createDocumentFragment();
   for (var i = 0; i < pizzaNum; i++) {
     var elem = document.createElement('img');
